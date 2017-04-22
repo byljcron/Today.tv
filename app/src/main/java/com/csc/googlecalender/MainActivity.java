@@ -51,7 +51,7 @@ public class MainActivity extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
-    private Button mCallApiButton;
+   // private Button mCallApiButton;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -82,26 +82,19 @@ public class MainActivity extends Activity
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
-                mOutputText.setText("");
-                getResultsFromApi();
-                mCallApiButton.setEnabled(true);
-            }
-        });
-        activityLayout.addView(mCallApiButton);
 
+
+        createtextview(activityLayout,tlp);
+        displaycalender();
+    }
+    private void createtextview(LinearLayout activityLayout ,ViewGroup.LayoutParams tlp) {
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
+        mOutputText.setPadding(50, 160, 16, 16);
         mOutputText.setVerticalScrollBarEnabled(true);
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
         mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
+                "Click the \'" + BUTTON_TEXT + "\' button to test the API.");
         activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
@@ -114,8 +107,11 @@ public class MainActivity extends Activity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
     }
-
-
+    private void displaycalender()
+    {
+        mOutputText.setText("");
+        getResultsFromApi();
+    }
 
     /**
      * Attempt to call the API, after verifying that all the preconditions are
@@ -328,7 +324,7 @@ public class MainActivity extends Activity
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .setApplicationName("Today.tv")
                     .build();
         }
 
@@ -390,7 +386,7 @@ public class MainActivity extends Activity
             if (output == null || output.size() == 0) {
                 mOutputText.setText("No results returned.");
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
+                output.add(0, "Today's Plan:");
                 mOutputText.setText(TextUtils.join("\n", output));
             }
         }
