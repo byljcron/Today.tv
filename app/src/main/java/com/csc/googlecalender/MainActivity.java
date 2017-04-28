@@ -97,11 +97,14 @@ public class MainActivity extends Activity
     private void getweather(String zip)
     {
         String url="http://api.wunderground.com/api/bbbb60c3a23903f6/conditions/q/"+zip+".json";
-
         AsynNetUtils.get(url, new AsynNetUtils.Callback() {
             @Override
             public void onResponse(String response) {
-                mOutputText1.setText(response);
+                String a=response.substring(response.indexOf("\"weather\""));
+                a=a.substring(0,a.indexOf(","));
+                String b =response.substring(response.indexOf("\"temp_c\""));
+                b=b.substring(0,b.indexOf(","));
+                mOutputText1.setText("57069"+":\n"+a+"\n"+b);
             }
         });
             //mOutputText1.setText("sss");//);get("http://api.openweathermap.org/data/2.5/weather?zip=94040,us"));//);readStream(in));
