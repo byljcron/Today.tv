@@ -89,15 +89,16 @@ public class MainActivity extends Activity
 
 
         createtextview(activityLayout,tlp);
-        getweather();
+        getweather("57069");
         displaycalender();
     }
 
 
-    private void getweather()
+    private void getweather(String zip)
     {
+        String url="http://api.wunderground.com/api/bbbb60c3a23903f6/conditions/q/"+zip+".json";
 
-        AsynNetUtils.get("http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=b05de51263213dbc7a9c23a191e33e9f", new AsynNetUtils.Callback() {
+        AsynNetUtils.get(url, new AsynNetUtils.Callback() {
             @Override
             public void onResponse(String response) {
                 mOutputText1.setText(response);
