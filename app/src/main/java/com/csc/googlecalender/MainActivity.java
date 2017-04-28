@@ -66,6 +66,7 @@ public class MainActivity extends Activity
     private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private Button mCallApiButton;
 
     /**
      * Create the main activity.
@@ -124,7 +125,7 @@ public class MainActivity extends Activity
         activityLayout.addView(mOutputText);
         mOutputText1 = new TextView(this);
         mOutputText1.setLayoutParams(tlp);
-        mOutputText1.setPadding(50, 320, 16, 16);
+        mOutputText1.setPadding(16,320,16,350);
         mOutputText1.setVerticalScrollBarEnabled(true);
         mOutputText1.setMovementMethod(new ScrollingMovementMethod());
         mOutputText1.setText(
@@ -139,6 +140,20 @@ public class MainActivity extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+
+        mCallApiButton = new Button(this);
+        mCallApiButton.setText("Quit");
+        mCallApiButton.setPadding(16,25,16,50);
+        mCallApiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallApiButton.setEnabled(false);
+                finish();
+                System.exit(0);
+            }
+        });
+        activityLayout.addView(mCallApiButton);
+
     }
     private void displaycalender()
     {
