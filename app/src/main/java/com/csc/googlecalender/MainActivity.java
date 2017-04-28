@@ -47,10 +47,14 @@ package com.csc.googlecalender;
         import pub.devrel.easypermissions.AfterPermissionGranted;
         import pub.devrel.easypermissions.EasyPermissions;
 
+        import   	java.net.*;
+        import java.io.*;
+        import java.util.*;
+
 public class MainActivity extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
-    private TextView mOutputText;
+    private TextView mOutputText,mOutputText1;
    // private Button mCallApiButton;
     ProgressDialog mProgress;
 
@@ -85,8 +89,26 @@ public class MainActivity extends Activity
 
 
         createtextview(activityLayout,tlp);
+        getweather();
         displaycalender();
     }
+
+
+    private void getweather()
+    {
+
+        AsynNetUtils.get("http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=b05de51263213dbc7a9c23a191e33e9f", new AsynNetUtils.Callback() {
+            @Override
+            public void onResponse(String response) {
+                mOutputText1.setText(response);
+            }
+        });
+            //mOutputText1.setText("sss");//);get("http://api.openweathermap.org/data/2.5/weather?zip=94040,us"));//);readStream(in));
+
+
+
+    }
+
     private void createtextview(LinearLayout activityLayout ,ViewGroup.LayoutParams tlp) {
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
@@ -96,7 +118,14 @@ public class MainActivity extends Activity
         mOutputText.setText(
                 "Click the \'" + BUTTON_TEXT + "\' button to test the API.");
         activityLayout.addView(mOutputText);
-
+        mOutputText1 = new TextView(this);
+        mOutputText1.setLayoutParams(tlp);
+        mOutputText1.setPadding(50, 320, 16, 16);
+        mOutputText1.setVerticalScrollBarEnabled(true);
+        mOutputText1.setMovementMethod(new ScrollingMovementMethod());
+        mOutputText1.setText(
+                "Click the \'" + BUTTON_TEXT + "\' button to test the API.");
+        activityLayout.addView(mOutputText1);
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
 
@@ -412,4 +441,5 @@ public class MainActivity extends Activity
             }
         }
     }
+
 }
